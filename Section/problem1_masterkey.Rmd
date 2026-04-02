@@ -1,0 +1,111 @@
+---
+title: "Problem Section 1 KEY"
+date:  "Onboarding"
+graphics: yes
+output: 
+  pdf_document:
+        highlight: null
+        pandoc_args: ["--syntax-highlighting=tango"]
+header-includes:
+    - \usepackage{amsmath, amssymb}
+    - \usepackage{framed}\definecolor{shadecolor}{rgb}{0.949,0.949,0.949}
+---
+
+
+* * * 
+
+\begin{shaded}
+
+\textbf{Learning Outcomes}
+
+The problems are designed to build conceptual understanding and problem-solving skills. The emphasis is on learning to find, evaluate and build confidence.
+The specific tasks include: 
+
+   - Describe events of interest using set notation.
+     
+   - Enumerate and count permutations and combinations
+  
+   - Back up and support work with relevant explanations
+
+
+\end{shaded}
+
+
+* * *
+### Exercises 
+
+1. For each of the following experiments, describe the sample space $S$.
+
+a. An arborist counts the number of insect-damaged leaves on a plant with $N$ leaves. Characterize the possible outcomes.
+    
+   $S = \{0,1,2,  \dots, N\}$ 
+	 
+b. Quality control records the proportion of defectives in a shipment of $N$ electronic components. Characterize the possible outcomes.
+	
+	 $S = \{0,\frac{1}{N},\frac{2}{N},\dots,1\}$
+
+2. Suppose a person is randomly selected from a large city. Let $A$ be the event that the randomly selected person is male, $B$ the event that the person is under 30 and $C$ that the person speaks French. Write the following verbal description of events using set operations on $A$, $B$, $C$. Venn diagrams might help you to figure out answers to this.  
+
+a. A male at least 30 years old
+    
+    $A \cap B^c$
+	
+b. A female under 30 who speaks French
+    
+    $A^c \cap B \cap C$
+	
+c. A male who is either under 30 or speaks French
+
+    $(A \cap B) \cup (A \cap C)$ or $A \cap (B \cup C)$
+
+
+3. Use the multiplication rule of counting to find the number of
+
+a. integers from 100 to 999 with distinct digits.
+
+    We saw this problem in class, but now we need to count the number of three digit numbers with distinct digits. 
+    
+    First digit: 9 choices (1 - 9)
+  
+    Second digit: Still 9 choices (0 + remaining 8)
+    
+    Third digit: 8 choices.
+    
+    Therefore we have $9 \times 9 \times 8$ choices by the multiplication rule for counting.
+    
+
+
+b. odd integers from 100 to 999 with distinct digits.
+
+    Here it is more efficient to first make the choice for the third digit, then the first and then the second. Think about why.
+    
+    Third digit: 5 choices (1,3,5,7,9)
+
+    First digit: 8 choices (even numbers 2,4,6,8 and 4 odd numbers).
+
+    Second digit: 8 choices (7 remaining numbers plus 0)
+    
+    Therefore we have $5\times 8 \times 8$ choices by the multiplication rule for counting.
+    
+
+4. A tourist wants to visit six of America's ten largest cities. 
+
+a. In how many ways can she do that if the order of her visits matters to her. Calculate the answer in the code chunk provided below. 
+
+
+    Here we want to know how many ways we can order a set of 6 cities from 10. By the multiplication rule, we have $10 \times 9 \times 8 \times 7 \times 6 \times 5$ or $\frac{10!}{4!}$
+    
+    ```{r ex4a}
+    #number of itineraries if order matters
+    factorial(10)/factorial(4)
+    ```
+
+    
+b. In how many ways can she do that if the order of her visits does not matter to her. Create a small code chunk to calculate the answer. 
+
+    Here we want to know how many ways we can choose 6 cities from 10. There are $\binom{10}{6}$ combinations which is calculated below.
+
+    ```{r ex4b}
+    #number of itineraries if order does not matter
+    choose(10,6)
+    ```
