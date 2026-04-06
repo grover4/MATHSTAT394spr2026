@@ -33,6 +33,9 @@ header-includes:
 
 ### Exercises 
 
+<!--- This is commented out text. It will not appear in your document when you knit. --->
+
+<!--- Use \emptyset in math mode when typing out the empty set. --->
 
 1. Let events $A$, $B$ and sample space $S$ be defined as the following intervals:
 \begin{align*}
@@ -54,7 +57,6 @@ d.  $A \cap B^c$
 e.  $A^c \cap B^c$
    
 
-<!--- This is commented out text. It will not appear in your document when you knit. --->
 
 <!--- Hint for 2: manually enumerate the possible spaces you and your friend could occupy. For each one of these possibilities, consider all the possible lineups. --->
 
