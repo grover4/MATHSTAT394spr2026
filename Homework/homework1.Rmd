@@ -1,0 +1,87 @@
+---
+title: "Homework 1"
+subtitle: "Onboarding"
+author: "WRITE YOUR NAME HERE"
+date: "`r Sys.Date()`"
+output: 
+  pdf_document:
+        highlight: null
+        pandoc_args: ["--syntax-highlighting=tango"]
+header-includes:
+    - \usepackage{amsmath, amssymb}
+    - \usepackage{setspace} 
+---
+\onehalfspacing
+
+* * * 
+
+### Instructions
+
+- This homework is due in Gradescope on Wednesday Apr 15 by midnight PST. There is a 15 minute grace period and submissions made during this time will not be marked as late. Any work submitted past this period is considered late.  
+
+- Please answer the following questions in the order in which they are posed. \textbf{Be sure to support your work and show your steps.}
+
+- Don't forget to (i) make a local copy this document for your work and to (ii) knit the document frequently to make sure there are no compilation errors. 
+
+- When you are done, download the PDF file as instructed in section and submit it in Gradescope. \textbf{Do not forget to tag your answers to every sub-part of every question. We will take off 10\% for every part that is not tagged}
+
+- Please read the acceptable policies for this class in CANVAS. In particular, you are NOT ALLOWED to consult external sources - AI, tutors, tutoring sites, internet - to complete any part of this work. Do not use notation or definitions or results we have not covered in this class. We will deduct points for this. 
+
+
+* * *
+
+
+### Exercises 
+
+
+1. Let events $A$, $B$ and sample space $S$ be defined as the following intervals:
+\begin{align*}
+S &= \{x: 0 < x < 7 \}\\
+A &= \{x: 0 < x < 5 \}\\
+B &= \{x: 3 \leq x < 7 \}
+\end{align*}
+
+    Characterize the following events. No explanation is needed.
+
+a.  $A^c$
+
+b.  $A \cap B$
+
+c.  $A \cup B$
+
+d.  $A \cap B^c$
+
+e.  $A^c \cap B^c$
+   
+
+<!--- This is commented out text. It will not appear in your document when you knit. --->
+
+<!--- Hint for 2: manually enumerate the possible spaces you and your friend could occupy. For each one of these possibilities, consider all the possible lineups. --->
+
+2. Suppose that ten people, including you and a
+friend, line up for a group picture.  How many ways can the photographer rearrange the line if she wants to keep exactly three people between you and your friend? Give a clear reasoning for your answer. Then calculate it inside a code chunk as you did in quiz section.
+
+
+3. Residents of a condominium have an automatic
+garage door opener that has a row of eight buttons. Each
+garage door has been programmed to respond to a particular set of buttons being pushed in. 
+
+a. Which example from the chapter 2 slide deck is this problem most similar to?
+
+b.  If the condominium houses 250 families, can residents be assured that no two
+garage doors will open on the same signal? Yes or no and why or why not.
+
+
+
+
+4. The crew of Artemis 2 consists of two pilots and two mission specialists. Suppose that NASA had actually trained nine pilots and four mission specialists. How many possible crews could have been assembled in the following situations? 
+For each exercise, write your answer mathematically with brief reasoning and also calculate it inside a code chunk as you did in quiz section.
+
+
+a. There is a lead pilot, a co-pilot, mission specialist 1 who focuses on hatch operations and mission specialist 2 who oversees the life support systems?
+
+
+b. The two pilot positions and the two mission specialist positions have identical duties?
+
+
+
