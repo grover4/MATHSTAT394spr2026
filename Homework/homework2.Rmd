@@ -1,0 +1,104 @@
+---
+title: "Homework 2"
+subtitle: "The Probability Function"
+author: "WRITE YOUR NAME HERE"
+output: 
+  pdf_document: 
+        highlight: null
+        pandoc_args: ["--syntax-highlighting=tango"]
+header-includes:
+    - \usepackage{amsmath, amssymb}
+    - \usepackage{setspace} 
+---
+\onehalfspacing
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)  #R package 
+```
+
+* * * 
+
+### Instructions
+
+- This homework is due in Gradescope on Wednesday April 22 by midnight PST. There is a 15 minute grace period and submissions made during this time will not be marked as late. Any work submitted past this period is considered late.  
+
+- Please answer the following questions in the order in which they are posed. \textbf{Be sure to support your work and show your steps. All calculations must be done within your document and shown with the answer printed.}
+
+- Don't forget to (i) make a local copy this document for your work and to (ii) knit the document frequently to make sure there are no compilation errors. 
+
+- When you are done, download the PDF file as instructed in section and submit it in Gradescope. \textbf{Do not forget to tag your answers to every sub-part of every question. We will take off 10\% for every part that is not tagged}
+
+- \textbf{Please read the acceptable policies for this class in CANVAS. In particular, you are NOT ALLOWED to consult external sources - AI, tutors, tutoring sites, internet - to complete any part of this work. Do not use notation or definitions or results we have not covered in this class. We will deduct points for this. }
+
+* * *
+
+
+### Exercises 
+
+<!--- Problem 1: The expectation for writing up your answer is similar to what you did in Exercise 2 from the section for week 2.
+--->
+
+1. (Heads or Tails) Suppose 6 \emph{fair} coins are tossed and the outcome (head or tail) is recorded for each.  
+   
+a. The sample space $S$ corresponding to this "experiment" consists of all possible sequences of heads and tails that result from tossing 6 coins. How many elements are in $S$? Calculate the answer in a code chunk, save it to a variable called `num_S` and then print the value.  
+   
+b. Let $E$ denote the event that there are more heads than tails. How many elements are in $E$? Calculate this number in a code chunk, save your answer in a variable called `num_E` and print the value.  
+   
+c. What is $P(E)$? Calculate it in a code chunk and save it to variable called `prob_E` and print the value. Be sure to cite any rules you are using to make your theoretical probability calculation. 
+   
+
+<!--- Problem 2 is similar to Exercise 4 in the problems for section from week 2. Please review this and the recording for help if you need it. In particular, you are expected to justify your work in part (a) as shown in the key and also calculate and output numerical answers.
+--->
+
+
+2. (Defectives) Acceptance sampling is a procedure that tests some of the items in a lot or shipment, and decides to accept or reject the entire lot based on the results of testing the sample. In a simple case, each tested item is determined to be acceptable or defective. Suppose a purchaser orders 100 items, tests 4 of them randomly and rejects the lot if one or more of those 4 are found to be defective.
+
+<!--- Hint for 2a: Define $E$ as the event that there are 1 or more defectives. You may want to approach this problem by finding $P(E^c)$. --->
+
+a. If 10% of the items in the shipment of 100 are defective, what is the the probability that the purchaser will reject the shipment? Justify your answer mathematically and make appropriate calculations within a code chunk and output your answers.
+
+<!---Hint for 2b: Please use the choose function when calculating `prob`. It is numerically more stable than using factorials. Also, make sure we can see all your code. We do not want to scrolling off your screen. You can always break up code over multiple lines to achieve this. Choose the labels for the plot so they are descriptive.   --->
+
+b.  In this part, we will visually examine how the probability of rejection is related to the percent of defective items in the shipment.  Fill in the blanks in the R code provided and run it in R to create the plot. **You should remove the `eval = FALSE` chunk option after filling in the blanks.**
+
+    ```{r shipment, eval=FALSE}
+
+     shipment <- tibble( # data frame
+              def_rate = seq(0,1,0.01),   # percent defective
+              num_def = ___,     # num of defective items in lot
+              prob = ___ )   # prob that lot is rejected 
+
+     ggplot(data = shipment, 
+            mapping = aes(x = def_rate,    
+                         y = ___) ) +
+            geom_line() +              # line plot
+            labs( title = " ___" ,     # give title
+                  x = "Percent of defective items \n
+                         in shipment",   
+                  y = "___")
+    ```
+
+
+c. Here is a problem with a similar structure as the acceptance sampling one, but taken from a different context. Answer yes or no and support your answer with a calculation in a code chunk. No explanation is needed. 
+
+    *Karen is studying for a history exam, where the teacher is going to choose 5 essay questions at random from the 10 he has given the class. Due to an upcoming probability exam, she only has limited time to prepare for the history exam, but she would like to do reasonably well on it, meaning getting at least four of the questions she has studied with probability at least 85%. Is it enough to study 8 of the 10 questions?*
+
+
+<!--- 
+Hint for Problem 3: Take a look at my explanations for Example 3.1 in the slide deck for chapter 3. We will deduct credit if you do not justify your work or show steps in a similar manner. 
+--->
+
+3. (Just acting) An actress playing the lead role in a film has a stunt double. According to the script, the actress appears in 40% of the film’s scenes, her double appears in 30%, and the two of them are together 5% of the time. Let $L$ denote the event that the lead is in a scene and $D$ denotes that the double is in a scene. Write each of the following in terms of $L$ and $D$ and then find the probability that it occurs.
+
+a. only the stunt double appears in a scene? 
+   
+b. neither the lead actress nor the double appears in a scene? 
+
+
+<!--- 
+Hint for Problem 4: Refer to the union bound from Chapter 3 slide deck and also the subset inequality from section for week 2. You will need to use both of them. Please support your work mathematically.
+--->
+
+4. Suppose $A$ and $B$ are events in a sample space such that $P(A) \geq 0.5$ and $P(B) \geq 0.2$.  What is the largest $P(A \cup B)$ can be? How about the smallest?
+
