@@ -1,0 +1,270 @@
+---
+title: "Problem Section 3 Key"
+subtitle:  "Conditional Probability & Independence"
+graphics: yes
+output: 
+    pdf_document:
+      highlight: null
+      pandoc_args: ["--syntax-highlighting=tango"]
+header-includes:
+    - \usepackage{amsmath, amssymb}
+    - \usepackage{framed}\definecolor{shadecolor}{rgb}{0.949,0.949,0.949}
+---
+
+```{r setup, include=FALSE}
+
+# setting global options to echo all code chunks, unless
+# otherwise specified in chunk options
+knitr::opts_chunk$set(echo = TRUE)
+
+# attach R packages which may be needed
+library(openintro)    #contains R function for drawing probability tree
+library(ggforce)  #contains R functions for drawing circuit diagram
+```
+
+
+* * * 
+\begin{shaded}
+
+\textbf{Learning Outcomes}
+
+The problems are designed to build conceptual understanding and problem-solving skills. The emphasis is on learning to find, evaluate and build confidence.
+The specific tasks include: 
+
+   - Calculate conditional probabilities
+   
+   - Apply Bayes' rule
+   
+   - Calculate probabilities for independent events
+  
+   - Back up and support work with relevant explanations
+
+
+\end{shaded}
+
+* * *
+
+
+### Exercises 
+
+1. Suppose a card is drawn randomly from a 52 card standard deck consisting of 13 cards (in denominations from 2 to 10, Jack, King, Queen, Ace) from each of four suits ($\heartsuit$, $\diamondsuit$, $\clubsuit$, $\spadesuit$). 
+
+a. Find the probability that the card is a club, given that the card is a King.  
+
+    Intuitively, the answer is $\frac{1}{4}$. The King is equally likely to be a heart, diamond, club, or spade. 
+    
+    But let's do this problem more formally even though it is not needed. Let C be the event **Card is a club**; let K be the event **Card is a King**. By definition
+    \begin{align*}
+    P(C \mid K) &= \frac{P(C \cap K)}{P(K)} \\
+           &= \frac{P(K|C) \times P(C)}{P(K)} \tag*{chain rule}\\
+           &= \frac{\frac{1}{13} \times \frac{13}{52}}{\frac{4}{52}} \\
+           &= \frac{1}{4}
+    \end{align*}
+
+b. Are the events independent? Why or why not?
+
+    They are independent because the probability of seeing a club is unaffected by whether or not we know the card is a King. In other words:
+    $$P(C \mid K) = \frac{1}{4} = P(C)$$
+
+2. Two of the integers from 1 to 100 are chosen randomly, one at a time, without replacement. Find the following.
+
+a. The probability that 1 is chosen.
+
+    Let $E$ denote the event that a 1 is chosen. We can first find the probability of the event $E^c$ and then use the rule of complements to find $P(E)$. 
+    
+    Since we are choosing two numbers randomly from 1 - 100 without replacement, the sample space consists of $\binom{100}{2}$ equally likely outcomes. There are $\binom{99}{2}$ outcomes in $E^c$.
+    
+    Therefore, $P(E^c) = \frac{\binom{99}{2}}{\binom{100}{2}}$ and $P(E) = 1 - P(E^c)$.
+    
+    ```{r}
+    prob_E <- 1 - choose(99,2)/choose(100,2)
+    prob_E
+    ```
+    
+    
+
+b. The conditional probability that 1 is the second number chosen given that 2 is not the first.
+
+    Let us define $B$ as the event that 2 is not the first number selected, and $A$ is the event that 1 is the second number chosen.
+    
+    By definition, $P(A \mid B) = \frac{P(A \cap B)}{P(B)}$. 
+    
+    In order to find the denominator $P(B)$, it may be a bit more direct to find $P(B^c)$ and then use the rule of complements. It is also easier here to keep track of the order since it is relevant to the question. 
+    
+    Calculation of $P(B^c)$: By the multiplication rule, there are $100 \times 99$ outcomes in the sample space (when keeping track of order of selection). Of these $1 \times 99$ outcomes correspond to choosing "2" first. Therefore, 
+    $$P(B^c) = \frac{1 \times 99}{100 \times 99} = \frac{1}{100}$$
+    and by the rule of complements:
+    $$P(B) = 1 - \frac{1}{100} = \frac{99}{100}$$
+    
+    
+    Next, we find the numerator $P(A \cap B)$. Using the same reasoning as above, we have 
+    $$P(A \cap B) = \frac{98 \times 1}{100 \times 99}$$
+    
+    Therefore $P(A \mid B) = \frac{98}{99^2}$
+    
+    ```{r}
+    98/99^2
+    ```
+    
+
+3. One useful application of conditional probabilities is in calculating inverse probabilities. For example, consider the following tree diagram of probabilities relating a screening test for a disease with the actual presence of disease. The first (primary) branch of the tree gives \emph{unconditional} probabilities of disease being present or absent, while the secondary branches state conditional probabilities of the test coming out positive (or negative) given the disease status. Suppose the test is positive. What is the probability that the person actually has disease? 
+   
+
+    ```{r screening_tree}
+
+    treeDiag(main = c("Disease status", "Test result"),
+         p1 = c(0.001, 0.999),
+         p2 = list(c(0.98, 0.02), c(0.01, 0.99)),
+         out1 = c("Present", "Absent"),
+         out2 = c("Positive", "Negative"),
+         showSol = FALSE,
+         showWork = FALSE,
+         solwd = 0.5,
+         digits = 6)
+
+    ```
+  
+a. Fill in the values in the tree diagram indicated by a "?". Then remove the `eval = FALSE` option for the code chunk.  
+
+
+b. Suppose the test is positive. What is the probability that the person actually has disease? 
+
+    Let $D_1$ denote that a randomly selected individual has the disease, and $D_2$ denote the event that they are healthy. Further suppose $T$ is the event that the screening test is positive. We want to find $P(D_1|T)$.
+
+   By Bayes' Rule we have
+   
+   $$P(D_1|T) = \frac{ P(T|D_1) \times P(D_1)}{P(T|D_1) \times P(D_1) + P(T|D_2)\times P(D_2)}$$
+
+    The calculations are shown below.
+   
+    ```{r calc_inv_prob}
+    Prob_T_given_D1 <- .98    #given: P(T|D)
+    Prob_D1 <- 0.001          #law of complements
+    Prob_T_given_D2 <- 0.01  #given:P P(T|D^c)
+    Prob_D2 <- 1 - Prob_D1    #law of complements
+
+    #use chain rule to find intersection probabilities
+    Prob_D1_and_T <-  Prob_T_given_D1* Prob_D1 
+    Prob_D2_and_T <- Prob_T_given_D2*Prob_D2
+
+    #find P(T) by adding intersection probabilities 
+    Prob_T <- Prob_D1_and_T + Prob_D2_and_T
+
+    #calculate inverse conditional probability by Bayes' Rule
+    # P(D|T) = P(T|D) P(D)/P(T)
+    Prob_D1_given_T <- (Prob_T_given_D1 * Prob_D1)/Prob_T 
+    Prob_D1_given_T
+    ```
+  
+     
+c. Are you surprised by your answer in b? Would you have expected the answer to be larger? How might you rationalize what you got? 
+
+    It does seem surprising that the answer in b is small considering the true positive rate of 98%. However, it does have a false positive rate of 1% and although this seems small in comparison, this actually ends up mistakenly flagging a lot of healthy patients. This is largely because the disease is extremely rare.
+    
+    For example if we have 100,000 people in the study, only 100 people are expected to have the disease and the test would correctly flag 98 of them. However, it would also flag 999 of the healthy people.
+
+   
+4. Protocol for making financial decisions in a large organization follows the circuit diagram shown below. Any budget is first screened by A. If she approves it, the plan is forwarded to B, D, and C. If one of B or D approves, it goes to E. If either E or C says “yes,” it moves on to F for a final reading and passes if they approve it. Suppose that A, C and F each have a chance of 50% of approving whereas $B$, $D$ and $E$ each have a 70% chance of approving the budget. If everyone comes to a decision independently, what is the probability that the budget will pass?
+
+
+    ```{r ref.label = "flow-diag", echo = FALSE, out.width = "50%", fig.align = "center", fig.alt = "circuit diagram"}
+    ```
+
+
+    The event that the "budget passes" is given by
+    $$\text{budget passes} = A \cap \left[ ( (B \cup D) \cap E) \cup C \right] \cap F.$$
+    
+    We are given $P(A) = P(C) = P(F) = 0.5$ and $P(B) = P(D) = P(E) = 0.7$.
+    
+    By independence of all the events, we can say 
+    $$P(\mbox{budget passes}) = P(A) \times P\left[ ( (B \cup D) \cap E ) \cup C \right] \times P(F).$$
+    
+    To find the middle probability, it is easiest to first define a new event $H = ( (B \cup D) \cap E )$. Then we can say
+    \begin{align*}
+    P(H) &= P( (B \cup D) \cap E ), \\
+    &= P(B \cup D) \times P(E) \tag{ind} \\
+    &= ( P(B) + P(D) - P(B \cap D) ) \times P(E) \tag{addition rule} \\
+    &= ( P(B) + P(D) - P(B) \times P(D) ) \times P(E), \tag{ind of B and D}
+    \end{align*}
+    
+    
+    Then we can write
+    $$P(\text{budget passes}) = P(A) \times P(H \cup C) \times P(F)$$
+    where 
+    \begin{align*}
+    P(H \cup C) &= P(H) + P(C) - P(H \cap C) \\
+    &= P(H) + P(C)  - P(H) \times P(C) 
+    \end{align*}
+    where we have once again used the independence of the event $C$ from the events in $H$. 
+ 
+    The final answer is calculated below.
+    
+    ```{r}
+    prob_a <- 0.5; prob_c <- 0.5; prob_f <- 0.5
+    prob_b <- 0.7; prob_d <- 0.7; prob_e <- 0.7
+    
+    prob_h <- (prob_b + prob_d - prob_b*prob_d)*prob_e; prob_h
+    
+    prob_pass <- prob_a *(prob_h + prob_c - prob_h*prob_c)*prob_f
+    
+    cat("The bill will pass with probability", round( prob_pass, 3))
+    
+    ```
+    
+
+<!--- 
+# Appendix
+
+The code for creating the circuit diagram is shown below. You are not expected to create something like this, or even understand what it is doing.
+--->
+
+```{r label = "flow-diag", echo = FALSE, eval = FALSE}
+
+# Helper: draw circular nodes
+node <- function(x, y, r = 0.22, label = "", ...) {
+  list(
+    ggforce::geom_circle(aes(x0 = x, y0 = y, r = r),
+                         inherit.aes = FALSE, linewidth = 0.6, fill = "white"),
+    annotate("text", x = x, y = y, label = label, size = 4.2, fontface = "bold", ...)
+  )
+}
+
+# Base plot setup
+p <- ggplot() +
+  coord_equal(xlim = c(-0.5, 10), ylim = c(1, 8), expand = FALSE) +
+  theme_void()
+
+# Main rectangle: A -> C -> E -> F outer path
+p <- p +
+  geom_segment(aes(x = 1, y = 2, xend = 1, yend = 6), linewidth = 0.8) +  # left side
+  geom_segment(aes(x = 1, y = 2, xend = 8, yend = 2), linewidth = 0.8) +  # bottom
+  geom_segment(aes(x = 8, y = 2, xend = 8, yend = 6), linewidth = 0.8) +  # right side
+  geom_segment(aes(x = 1, y = 6, xend = 8, yend = 6), linewidth = 0.8)    # top
+
+# Upper loop between B and D (parallel branch)
+loop_x1 <- 2; loop_x2 <- 4; loop_y <- 6; loop_h <- 1.2
+p <- p +
+  geom_segment(aes(x = loop_x1, y = loop_y, xend = loop_x1, yend = loop_y + loop_h), linewidth = 0.8) +  # left vertical of loop
+  geom_segment(aes(x = loop_x1, y = loop_y + loop_h, xend = loop_x2, yend = loop_y + loop_h), linewidth = 0.8) +  # top path (B)
+  geom_segment(aes(x = loop_x2, y = loop_y + loop_h, xend = loop_x2, yend = loop_y), linewidth = 0.8) +  # right vertical back down
+  geom_segment(aes(x = loop_x1, y = loop_y, xend = loop_x2, yend = loop_y), linewidth = 0.8)             # bottom of loop (D)
+
+# Input/output arrows
+p <- p +
+  geom_segment(aes(x = -0.2, y = 4, xend = 1, yend = 4),
+               linewidth = 0.8, arrow = arrow(length = unit(6, "pt"), type = "closed")) +
+  geom_segment(aes(x = 8, y = 4, xend = 9.3, yend = 4),
+               linewidth = 0.8, arrow = arrow(length = unit(6, "pt"), type = "closed"))
+
+# Node positions
+p <- p +
+  node(0.35, 4, label = "A") +        # A (input)
+  node(3, loop_y + loop_h, label = "B") +  # B (top of loop)
+  node(3, loop_y, label = "D") +           # D (bottom of loop)
+  node(6.2, 6, label = "E") +         # E (top right)
+  node(4.5, 2, label = "C") +         # C (bottom branch)
+  node(8.8, 4, label = "F")           # F (output)
+
+p
+
+```
