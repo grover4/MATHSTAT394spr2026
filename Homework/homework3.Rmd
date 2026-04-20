@@ -1,0 +1,79 @@
+---
+title: "Homework 3"
+subtitle: "Conditional Probability/Independence"
+author: "WRITE YOUR NAME HERE"
+output: 
+  pdf_document: 
+        highlight: null
+        pandoc_args: ["--syntax-highlighting=tango"]
+header-includes:
+    - \usepackage{amsmath, amssymb}
+    - \usepackage{setspace} 
+---
+\onehalfspacing
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+#R packages
+library(tidyverse)  
+
+```
+
+* * * 
+
+### Instructions
+
+- This homework is due in Gradescope on Wednesday April 29 by midnight PST. There is a 15 minute grace period and submissions made during this time will not be marked as late. Any work submitted past this period is considered late.  
+
+- Please answer the following questions in the order in which they are posed. \textbf{Be sure to support your work and show your steps. All calculations must be done within your document and shown with the answer printed}
+
+- Don't forget to (i) make a local copy this document for your work and to (ii) knit the document frequently to make sure there are no compilation errors. 
+
+- When you are done, download the PDF file as instructed in section and submit it in Gradescope. \textbf{Do not forget to tag your answers to every sub-part of every question. We will take off 10\% for every part that is not tagged}
+
+- \textbf{Please read the acceptable policies for this class in CANVAS. In particular, you are NOT ALLOWED to consult external sources - AI, tutors, tutoring sites, internet - to complete any part of this work. Do not use notation or definitions or results we have not covered in this class. We will deduct points for this. }
+
+* * *
+
+
+### Exercises 
+
+<!--- Notes for Problem 1: Define events $B_1$: "B works", $B_2$: "B fails" and $E$ is the event that "E works". Clearly state what we are given, what you are trying to find and show your steps and support your answer.   --->
+
+1. (Electricity) In an electric circuit, it is known overall that relay B works with probability 0.6 and relay E with probability 0.54. However, given that B fails, E will fail with probability 0.7. Find the probability E works given that B works. Clearly state any laws you make use of and show your steps. All calculations must be done within your document and shown with answers printed for variables.
+    
+
+<!--- Problem 2: Please consult problem 3 from the section for week 3 for an idea of what is expected --->
+
+2. (Spamalot) Larry divides his email into two categories: $A_1=\mbox{spam}$,
+$A_2=\mbox{not spam}$. From previous experience he has found that $P(A_1) = 0.7$, $P(A_2)=0.3$. Let $B$ be the event that the email contains the word ``free''. From previous experience, $P(B|A_1)=0.9$, $P(B|A_2)=0.02$. 
+ 
+
+<!--- 2a: Be sure to only attach the package in the setup code chunk at the top of the document. We will deduct points if this is not followed, or your code does not show fully. Practice typing out the code, not just copying and pasting.  --->
+
+a. Make a probability tree using the `treeDiag` function from the package **openintro**. 
+
+
+b. Suppose Larry receives an email with the word "free". What is the probability that it is spam? Clearly show your work mathematically and support steps. The tree should only help you verify your answers. All calculations must be done within your document and shown with the answer printed.
+
+
+<!--- Problem 3: This is similar to Example 4.1 (revisited) at the end of the Chapter 4 slide deck, except you will need to use counting rules to get probabilities since the sets are too large to enumerate --->
+
+3. (Face off) Suppose three cards are drawn randomly without replacement from a shuffled 52-card deck.  The face cards are the 4 Jacks, 4 Queens and 4 Kings.  Let $A=\{
+\mbox{all diamonds} \}$ and $B=\{\mbox{all face cards}\}$.  Are the
+events $A$ and $B$ independent? Show your work mathematically and with support. Any calculations must be done within your document and shown with the answer printed.
+
+
+<!--- 
+Problem 4: Consult chapter 3, especially the proofs of the corollaries to the axioms for the rigor I am expecting in your proof. In particular, you are only allowed to use facts about the unconditional probability function that we have already seen/proved and also set algebra. --->
+
+
+4. (Axioms) Show that the conditional probability function $P(. \mid B)$ is itself a valid probability function. In other words, prove that it satisfies the axioms of probability:
+
+    [A1] $P(E \mid B) \geq 0$ for any event $E$.
+
+    [A2] $P(S \mid B) = 1$ where $S$ is the sample space
+
+    [A3] $P( (E_1 \cup E_2 ) \mid B) = P(E_1 \mid B) + P(E_2 \mid B)$ for disjoint sets $E_1$ and $E_2$. 
+
+
