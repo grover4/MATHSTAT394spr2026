@@ -100,5 +100,5 @@ b. neither the lead actress nor the double appears in a scene?
 Hint for Problem 4: Refer to the union bound from Chapter 3 slide deck and also the subset inequality from section for week 2. You will need to use both of them. Please support your work mathematically.
 --->
 
-4. Suppose $A$ and $B$ are events in a sample space such that $P(A) \geq 0.5$ and $P(B) \geq 0.2$.  What is the largest $P(A \cup B)$ can be? How about the smallest?
+4. Suppose $A$ and $B$ are events in a sample space such that $P(A) = 0.5$ and $P(B) = 0.8$.  What is the largest $P(A \cap B)$ can be? How about the smallest?
 
