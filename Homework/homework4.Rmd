@@ -1,0 +1,134 @@
+---
+title: "Homework 4"
+subtitle: "Discrete Random Variables"
+author: "WRITE YOUR NAME HERE"
+output: 
+  pdf_document: 
+        highlight: null
+        pandoc_args: ["--syntax-highlighting=tango"]
+header-includes:
+    - \usepackage{amsmath, amssymb}
+    - \usepackage{setspace} 
+---
+\onehalfspacing
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+#R packages
+ 
+
+```
+
+* * * 
+
+### Instructions
+
+- This homework is due in Gradescope on Wednesday May 6 by midnight PST. There is a 15 minute grace period and submissions made during this time will not be marked as late. Any work submitted past this period is considered late.  
+
+- Please answer the following questions in the order in which they are posed. \textbf{Be sure to support your work and show your steps. All calculations must be done within your document and shown with the answer printed}
+
+- Don't forget to (i) make a local copy this document for your work and to (ii) knit the document frequently to make sure there are no compilation errors. 
+
+- When you are done, download the PDF file as instructed in section and submit it in Gradescope. \textbf{Do not forget to tag your answers to every sub-part of every question. We will take off 10\% for every part that is not tagged}
+
+- \textbf{Please read the acceptable policies for this class in CANVAS. In particular, you are NOT ALLOWED to consult external sources - AI, tutors, tutoring sites, internet - to complete any part of this work. Do not use notation or definitions or results we have not covered in this class. We will deduct points for this and/or report the matter for further investigation. }
+
+* * *
+
+
+### Exercises 
+
+
+1. (School bus) Four buses carrying 148 students from the same
+school arrive at a football stadium. The buses
+carry, respectively, 40, 33, 25, and 50 students. 
+
+<!--- Note for 1a, 1b: please consult chapter 5 slidedeck for more about PMFs. In particular, you only need to show the values which have positive probability. The first column should list the probability (leave it as a fraction) and the second column should show the possible values --->
+
+a. Suppose one of the students is randomly selected. Let $X$ denote
+the number of students that were on the bus carrying the randomly selected student. Replace the blanks to show the possible values and their respective probabilities.  Then write a couple of sentences explaining your calculation.
+
+$$f_1(x) = \begin{cases}
+          ---,  &  x = ---  \\[3pt]
+          ---,  & x = --- \\[3pt]
+          ---,  & x = --- \\[3pt]
+          ---,  & x = ---
+         \end{cases}$$
+         
+b. Suppose one of the 4 bus drivers is also randomly selected. Let the random variable $Y$ denote the number of students on their bus. Replace the blanks to show the possible values and their respective probabilities.  Then write a couple of sentences explaining your calculation.
+
+$$f_2(y) = \begin{cases} 
+          ---,  & y = ---  \\[3pt]
+          ---,  & y = --- \\[3pt]
+          ---,  & y = --- \\[3pt]
+          ---,  & y = ---
+         \end{cases}$$
+
+c. Which do you think will be larger typically? Answer $X$ or $Y$ and give a brief explanation of your thinking.
+
+2. (Bases) The CDF of the number of bases reached by a baseball player is shown below.
+
+$$F(x) = \begin{cases}
+            0 & x < 0 \\[2pt]
+            0.513 & 0 \leq x < 1 \\[2pt] 
+            0.856 & 1 \leq x < 2 \\[2pt]
+            0.899 & 2 \leq x < 3 \\[2pt]
+            0.911 & 3 \leq x < 4 \\[2pt]
+            1     & 4 \leq x 
+          \end{cases}$$
+
+<!--- Note for 2a: see Chapter 5 slidedeck on slide 33 for the properties. You have to make sure each one is satisfied. Also see problem 3 from section in week 4 for something similar  --->   
+
+a. Argue that $F(x)$ is a valid CDF.
+
+<!--- Note for 2b: use the cases environment as shown in problem 1. If you find yourself reaching for a calculator, stop! Make a code chunk and do your calculations in it  --->
+
+b. Write $f(x)$, the PMF of $X$ below. No explanation needed.
+
+
+<!--- Note for 2c: show the probability as expressions that involve $f$ and $F$ first. Then calculate both in a code chunk with code shown and answers outputted so we/you can verify they are the same. See example 5.6 from chapter 5 slidedeck
+--->
+
+c. Find $P(1.5 \leq X < 4)$ in two ways: one using the PMF and the other using the CDF. 
+
+3. (Capture-recapture) From a lake containing 200 goldfish, a sample of 25 fish are caught, tagged and released. Later, a second sample of 20 fish are caught randomly and the number of tagged fish in the sample are counted.
+
+<!--- Note for 3a: this is again like the acceptance sampling scenario. Think about why. Also see example 5.4 from the Chapter 5 slidedeck for what it means to write the PMF as a formula. 
+
+This method is called capture-recapture and it is used to estimate wildlife populations. We assume that the population is closed: in other words there are no additions (breeding, immigration) or losses (deaths) in between the capture and recapture. 
+--->
+
+a. Let $X$ denote the number of tagged fish in the second sample. Write the PMF of $X$ as a formula. No explanation is needed.   
+
+
+<!--- Note for 3b: look at example code on slide 25 of chapter 5. Don't forget the `labs` layer for ggplot, and please give a descriptive title that sets the context for what the graph is showing, not just "Problem 3b". Also be sure to use the `scale_x_continuous` layer so the ticks are placed at the possible x values. See section from week 4 if you need help. --->
+
+b. Create a probability histogram of $X$. 
+
+    ```{r prob-hist, fig.alt = " give alternative text for your image here to make it accessible to screen reader", out.width = "50%", fig.align = "center"}
+    
+    #attach tidyverse in setup 
+    
+    ```
+
+c. Comment on the shape of the distribution from part b, the location of the peaks and why it makes sense.
+
+
+<!--- For 4: In Roulette, bets on color (red or black) are 1 for 1 or  even money. That is, say you pay \$1 to play. If your color shows up, you get \$2. So you win \$1. If you lose, they keep your money. So you win -\$1. --->
+
+
+4. (Roulette) A gambling book recommends this "winning" strategy for the game of roulette: 
+
+    - Bet \$1 on red. If red appears (which has probability $\frac{18}{38}$ ), then take the \$1 profit and quit. 
+    
+   - If red does not appear (which has probability $\frac{20}{38}$ of occurring), make additional \$1 bets on red on each of the next two spins of the roulette wheel and then quit.
+    
+    Let the random variable $X$ denote your winnings when you quit. Also denote $E_i$ as the event that red appears on the ith spin, where $i$ can be 1, 2 or 3. 
+
+a. What are the possible values for $X$? For each possible value, describe it in terms of the $E_i$. Give a brief explanation.
+
+<!--- Hint for 4b:  Write your answer in terms of probabilities of events first, then do the calculation in a code chunk.  --->
+
+
+b. Find $P(X > 0)$. You may assume the outcomes from the spins are mutually independent, which incidentally also implies that their complements are independent.
+
