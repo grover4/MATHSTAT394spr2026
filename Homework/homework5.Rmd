@@ -1,0 +1,102 @@
+---
+title: "Homework 5"
+subtitle: "The Binomial Distribution/Expected Values"
+author: "WRITE YOUR NAME HERE"
+date: "`r Sys.Date()`"
+output: 
+  pdf_document:
+        highlight: null
+        pandoc_args: ["--syntax-highlighting=tango"]
+urlcolor: blue
+header-includes:
+    - \usepackage{amsmath, amssymb}
+    - \usepackage{setspace} 
+---
+
+\onehalfspacing
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE) #do not change this option
+
+```
+
+
+* * * 
+
+### Instructions
+
+- This homework is due in Gradescope on Wednesday May 13 by midnight PST. There is a 15 minute grace period and submissions made during this time will not be marked as late. Any work submitted past this period is considered late.  
+
+- Please answer the following questions in the order in which they are posed. 
+
+- Don't forget to (i) make a local copy this document for your work and to (ii) knit the document frequently to make sure there are no compilation errors. 
+
+- When you are done, download the PDF file as instructed in section and submit it in Gradescope. 
+
+* * *
+
+
+### Exercises 
+
+<!--- Note for 1: please watch the linked video for a better idea of their experiment --->
+
+1. (Helper or hinderer) A [study](https://www.youtube.com/watch?v=anCaGBsBOxM) conducted by psychologist Kylie Hamlin and colleagues at Yale University found that babies have a natural inclination towards pro-social and positive individuals ("helper") and an aversion for anti-social behavior ("hinderer"). In one of their studies, 14 out of 16 babies tested chose the helper. 
+
+a. Let the random variable $X$ denote the number (out of 16) of babies who choose the helper. What is a reasonable model for $X$? State the assumptions you are making (in context).
+
+<!--- Note for b: Attach the package tidyverse for the plot in the setup code chunk only. Also be sure to use the scale_x_continuous layer to put down ticks at the possible values. If you need help, please look up problems from sections.  --->
+
+b. Does this study provide strong evidence that babies prefer an individual who helps another to one who hinders another? In order to answer this question, first make a probability histogram of the distribution in part a. assuming babies have no preference.  Add a vertical line at $x = 14$ to the histogram using the `geom_vline` layer.  (*Hint* Type `? geom_vline` in the Console for help.)
+
+c. The probability $P(X \geq 14)$ quantifies how unusually large an observed value of 14 is under the presumed distribution in part b. Calculate and show this number in a code chunk in two ways: one using `dbinom` and also using `pbinom`. 
+
+d. Based on your calculation from part c, does $x = 14$ seem like a reasonable value to observe in this distribution? In words, interpret this probability and give your conclusion. 
+
+<!--- Problem 2: For each part, be sure to clearly state the random variable $X$, its distribution with all inputs specified, write the probability you are trying to calculate and then show the calculation in R with answer displayed. You must use R functions - either dbinom or pbinom for the probability calculation.  ---> 
+
+2. (Hinges) A factory produces door hinges for wholesale. Every hinge, independently of all other, is defective with probability 0.005. The hinges are packed in boxes of 100. 
+
+a. A box is considered bad if it contains more than 3 defective hinges. What is the probability that a box is bad? 
+
+b. In a shipment with 10,000 boxes, what is the probability that there are more than 25 bad boxes? 
+
+
+
+3. (Pooled Testing) Suppose that fifty people are to be given a blood test to see who has a certain disease. The obvious laboratory procedure is to examine each person’s blood individually, meaning that fifty tests would eventually be run. An alternative strategy is to divide each person’s blood sample into two parts (say), A and B. All of the A’s would then be mixed together and treated as one sample. If that “pooled” sample proved to be negative for the disease, all fifty individuals must necessarily be free of the infection, and no further testing would need to be done. If the pooled sample gave a positive reading, of course, all fifty blood samples would have to be analyzed separately.
+
+   Let the random variable $X$ denote the number of tests which will need to be performed. Also let $\pi$ denote the probability that a randomly selected person is free of the disease.
+
+<!--- Hint for 2a: think about how many tests you would perform if the pooled sample came back negative? How about if it came back positive?  --->
+
+a. Write the PMF of $X$ in a tabular format. You may assume independence of outcomes among people. 
+
+    \begin{table}[h]
+    \centering
+    \caption{PMF of $X$: number of tests}
+    \begin{tabular}{|c|c|c|} \hline
+    $x$ &  &  \\ \hline
+    $f(x)$ & &  \\ \hline
+    \end{tabular}
+    \end{table}
+    
+
+b. Find $E\left[X \right]$. Show your steps beginning with the definition of an expected value.
+
+<!--- Hint for 2c: Use the `geom_function` layer as we did in the chapter 7.2 slide deck--->
+
+c. Make a plot of $E\left[X \right]$ versus $\pi$. Show your code and a properly labeled plot.  
+
+<!--- Note for 2d: "In context" means using the context of the problem --->
+
+d. Does the graph from part c make sense intuitively? Explain briefly in context. 
+
+4. A true/false mathematics exam has 10 question, each worth 2 points. Any incorrect answer is penalized by -3 points. Suppose a student randomly guesses the answer to each question.
+
+a. Let $X$ denote the number of questions the student guesses correctly. What is a reasonable distribution for $X$? State the name and also the values of any parameters. Be sure to state (in context) any assumptions you need to make.
+
+
+b. Let $Y$ denote the points the student earns on the test. Write $Y$ as a function of $X$. Give a brief explanation.
+
+c. Find the expected score for the student. Show your work and cite any rules you use.
+
+d. Clearly, guessing should be avoided unless one is fairly certain to know the answer. What is the smallest probability that does not yield a negative expected score? Show your work.
