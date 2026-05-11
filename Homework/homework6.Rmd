@@ -1,0 +1,78 @@
+---
+title: "Homework 6"
+subtitle: "Mean and variance"
+author: "WRITE YOUR NAME HERE"
+date: "`r Sys.Date()`"
+output: 
+  pdf_document:
+        highlight: null
+        pandoc_args: ["--syntax-highlighting=tango"]
+header-includes:
+    - \usepackage{amsmath, amssymb}
+    - \usepackage{setspace} 
+---
+
+\onehalfspacing
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE) #do not change this option
+
+
+```
+
+
+* * * 
+
+### Instructions
+
+- This homework is due in Gradescope on Wednesday May 20 by midnight PST. There is a 15 minute grace period and submissions made during this time will not be marked as late. Any work submitted past this period is considered late.  
+
+- Please answer the following questions in the order in which they are posed. 
+
+- Don't forget to (i) make a local copy this document for your work and to (ii) knit the document frequently to make sure there are no compilation errors. 
+
+- When you are done, download the PDF file as instructed in section and submit it in Gradescope. 
+
+* * *
+
+
+### Exercises 
+
+1. (Urn) A gambler is invited to play the following game.  An urn contains 20 marbles of which 3 are red.  The gambler pays \$7 and then draws 4 marbles without replacement. For each red marble drawn,
+the player gets \$10.
+The marbles in the urn have been thoroughly mixed, and the player is
+unable to see inside the urn while drawing. 
+
+<!--- Note for 1a, 1b: please look at problem 2 from Week 6 section and follow the process I have shown for answering the problem. In particular, do not just show code. Write your answer out mathematically first and then do calculations.  --->
+
+a. Let the random variable $X$ denote the number of red marbles drawn. Write the PMF of $X$ as a formula.
+
+<!--- Note for 1b: Look at my slidedeck Chapter 7.2 for interpretation of sd --->
+
+b. Find $E\left[X \right]$ and $SD\left[X \right]$. Also write a sentence to interpret these numbers.
+
+c. Let the random variable $W$ denote the winnings from playing the game. Write $W$ as a function of $X$. 
+
+<!--- Note for 1d: Be sure to cite any rules you use to make your calculation. Do your numerical calculations in R. Anytime you need a calculator, use R. --->
+
+d. Find $E\left[W \right]$ and $SD\left[W \right]$. 
+
+
+2. (Urn again) An urn contains $n$ chips numbered 1 through $n$. Assume that the probability of choosing chip $x$ is given by $k \cdot x, \quad x = 1,2,3,\dots, n$ where $k > 0$.
+
+a. Suppose one chip is drawn randomly and the random variable $X$ denotes the number showing on the chip. Write the PMF of $X$ by filling in the blanks below. Write a brief explanation below.
+
+  $$f(x) = ??? \quad x = ???$$
+
+b. Find $E\left[ \frac{1}{X} \right]$. Clearly cite any rules you use to do this calculation.
+
+<!--- Hint for 3: first state what Chebychev's inequality states for generic $\mu$ and $\sigma$. Then write the probability in the question in a form where this inequality can be used and then use it. Please look up the solution for problem 4 from Week 6 section. We are expecting these steps for full credit. --->
+
+3. (Chebychev) Suppose $X$ is a random variable with mean $\mu = \frac{n}{2}$ and standard deviation $\sigma = \frac{\sqrt{n}}{2}$ where $n$ is a positive integer. Use Chebyshev's inequality to find the smallest $n$ for
+   $$P\left( |X -\frac{n}{2}| < \frac{0.1 \times n}{2} \right)$$
+    to be at least 90%. 
+ 
+    
+4. (Signal to noise) If a random variable $X$ has mean $\mu$ and standard deviation $\sigma$, the ratio $r = \frac{|\mu|}{\sigma}$ is called the measurement signal-to-noise ratio of $X$. 
+
+    Let the random variable $D = \frac{X - \mu}{\mu}$. Use Chebychev's inequality to derive an upper bound for $P(|D| \geq k)$ in terms of $k$ and $r$, where $k > 0$.  
