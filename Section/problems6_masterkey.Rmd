@@ -1,0 +1,164 @@
+---
+title: "Problem Section 6"
+subtitle:  "Expected Value and Variance"
+graphics: yes
+output: 
+      pdf_document:
+      highlight: null
+      pandoc_args: ["--syntax-highlighting=tango"]
+header-includes:
+    - \usepackage{amsmath, amssymb}
+    - \usepackage{framed}\definecolor{shadecolor}{rgb}{0.949,0.949,0.949}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+* * * 
+\begin{shaded}
+
+\textbf{Learning Outcomes}
+
+The problems are designed to build conceptual understanding and problem-solving skills. The emphasis is on learning to find, evaluate and build confidence.
+The specific tasks include: 
+
+   - Calculate expected value and variance using the PMF
+     
+   - Use Chebychev's inequality to make probability statements
+ 
+   - Back up and support work with relevant explanations
+
+ 
+
+\end{shaded}
+
+
+* * *
+
+### Exercises 
+
+1. (Law of the Unconscious Probabilist) Weird Wally offers you the following choice. You may have a flat amount of $\frac{1}{3.5}$ dollars or you may roll a fair die and he will give you $\frac{1}{X}$ dollars where $X$ is the value on the roll. 
+The PMF of $X$ is shown in the table below.
+
+    \begin{table}[h]
+    \centering
+    \begin{tabular}{c|c|c|c|c|c|c} \hline
+    $x$ & 1& 2 & 3 &4 & 5& 6 \\ \hline
+    $f(x)$& $\frac{1}{6}$ & $\frac{1}{6}$ & $\frac{1}{6}$ &$\frac{1}{6}$ &$\frac{1}{6}$     &$\frac{1}{6}$ \\ \hline
+    \end{tabular}
+    \end{table}
+
+    Which is the better deal? 
+
+
+    In order to judge, we will calculate $E\left[ \frac{1}{X} \right]$. We can find it by using the Law of the Unconscious Probabilist:
+
+    \begin{align*}
+    E\left [\frac{1}{X}\right ] &= \sum_x \frac{1}{x} \cdot f(x) \\ 
+    &= \frac{1}{6}\sum_{x=1}^6\frac{1}{x}
+    \end{align*}
+
+    We may calculate this using R.
+
+    ```{r}
+    inv_x <- 1/(1:6)
+    E_1_x <- sum(inv_x)/6
+    E_1_x
+    ```
+
+    Using R we see that $E\left[ \frac{1}{X} \right ] = `r E_1_x`$ versus Wally's offer of $\frac{1}{3.5} = `r 1/3.5`$. Thus rolling the die has a better expected value, and this is the better deal. 
+    
+2.  A shipment consists of hundred memory chips, 4% of which are defective. A random sample of twenty chips is
+selected from the shipment.
+Let $X$ denote the number of defective 
+memory chips in the sample. Find $Var(X)$
+
+a. if the sample is taken with replacement?
+
+    In this setting $X$ is a binomial random variable with $n = 20$ and $\pi = 0.04$. By Theorem 7.3, 
+    \begin{align*}
+    Var(X) &= n \times \pi \times (1- \pi) \\
+    &= 20 \times 0.04 \times 0.96.
+    \end{align*}
+    
+    This is calculated below.
+    
+    ```{r}
+    20*0.04*0.96
+    ```
+
+b. if the sample is taken without replacement? 
+
+    Here the PMF of $X$ is given by
+    $$f(x) = \frac{\binom{4}{x} \binom{96}{20 - x}}{\binom{100}{20}} \quad x = 0,1,2,3,4$$
+    
+    By Theorem 7.2, a shortcut formula for the variance is 
+    
+    \begin{align*}
+    Var\left[X \right] &= E\left[X^2 \right] - \mu^2\\
+    &= \sum\limits_{x} x^2 \cdot f(x) - \mu^2
+    \end{align*}
+    
+    where $\mu = E\left[X \right]$. From last week, we know that $\mu = 0.8$. (Note: please look up solutions from section last Friday if you need a reminder)
+    
+    Therefore we need to find $E\left[X^2\right]$. This is done below. 
+    
+    ```{r}
+    x <- 0:4
+    fx <- choose(4,x)*choose(96,20-x)/choose(100,20)
+    mu <- sum(x*fx); mu
+    EX2 <- sum(x^2*fx ); EX2
+    Var_X <- EX2 - mu^2; Var_X
+    
+    ```
+    
+    As we can see, when a sample is drawn without replacement, the variability is lower. This makes sense since there are fewer items to choose from on each subsequent draw which reduces the variability.
+    
+
+  
+
+
+3. If $X$ denotes a temperature of a randomly selected day recorded in degrees Fahrenheit, then $Y = \frac{5}{9} X - \frac{160}{9}$ is the corresponding temperature in degrees Celsius. If the standard deviation for $X$ is 15.7$^{\circ} F$, what is the standard deviation of $Y$?
+
+   By Lemma 7.4, we have the result that 
+   $$Var(Y) = \left(\frac{5}{9} \right)^2 Var(X).$$
+   Since $Var(X) = 15.7^2$ we can say that
+   $$Var(Y) = \frac{25 \times 15.7 \times 15.7}{81}$$ and
+   $$SD(Y) = \sqrt{Var(Y)} = \frac{5 \times 15.7}{9}.$$
+   
+    
+4. (Chebychev) Suppose $X$ is a random variable with mean and variance both equal to 20. What can be said about $P( 0 < X < 40)$?
+
+    Chebychev's inequality says that 
+    $$P(|X - \mu| \geq k ) \leq \frac{\sigma^2}{k^2}.$$ 
+    
+    Here $\mu = 20$ and $\sigma^2 = 20$. Therefore by Chebychev's rule we can say
+    \begin{align}
+    P(|X - 20| \geq k) \leq \frac{20}{k^2} \label{one}
+    \end{align}
+   
+ 
+    Now it is important to note that the event $0 < X < 40$ can be written as 
+    \begin{align*}
+    0 < X < 40 &= (0 - 20) < X - 20 < (40 - 20), \\
+    &= -20 < X - 20 < 20, \\
+    &= |X - 20| < 20
+    \end{align*}
+    
+    Therefore 
+    \begin{align*}
+     P( 0 <  X < 40)  &= P(|X - 20| < 20) \\
+     &= 1 - P(|X - 20| \geq 20) \tag{law of complements}\\
+     &\geq  1 -\frac{20}{20^2} 
+     \end{align*}
+     
+     where the last inequality follows from equation (\ref{one}) by reversing the direction of the inequality and with $k = 20$.
+     
+     Therefore we can say
+     $$P(0 < X < 40) \geq \frac{19}{20}$$
+     
+     
+    
+  
