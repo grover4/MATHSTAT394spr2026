@@ -1,0 +1,280 @@
+---
+title: "Problem Section 7 KEY"
+subtitle:  "Poisson and Geometric"
+graphics: yes
+output: 
+      pdf_document:
+      highlight: null
+      pandoc_args: ["--syntax-highlighting=tango"]
+header-includes:
+    - \usepackage{amsmath, amssymb}
+    - \usepackage{framed}\definecolor{shadecolor}{rgb}{0.949,0.949,0.949}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(fastR2)
+```
+
+* * * 
+\begin{shaded}
+
+\textbf{Learning Outcomes}
+
+The problems are designed to build conceptual understanding and problem-solving skills. The emphasis is on learning to find, evaluate and build confidence.
+The specific tasks include: 
+
+   - Use the geometric series to calculate probabilities
+   
+   - Use the Poisson model to calculate probabilities
+   
+   - Use the `uniroot` function to solve a non-linear equation
+   
+   - Fit a Poisson model to data
+  
+   - Back up and support work with relevant explanations
+
+ 
+ 
+
+\end{shaded}
+
+
+* * *
+
+### Exercises 
+
+1. (Solitaire) Andrea has found that she wins about 28% of the time when playing a solitaire game  on her computer. 
+
+a. Calculate the probability that she plays 10 games before her first win.
+
+    If we let $X$ denote the number of games lost before the first win, then we have
+$X \sim Geom(\pi = 28\%)$. This is of course assuming that the games are independent.
+
+    We want $P(X = 10)$. This is given by
+    $$P(X = 10) = (1- \pi)^{10} \times \pi$$
+    
+    This is calculated manually below and also using the R function `dgeom`.
+
+    ```{r}
+    (1-0.28)^(10)*0.28  #P(X = 10) manually
+    
+    dgeom(x = 10, prob = 0.28)
+    
+    ```
+
+b. Calculate the probability that she has to play at least 10 games before her first win. Do this in closed form and calculate using R as a calculator. Also use the R function for calculating geometric probabilities to find the answer.
+
+    Here we want to find $P(X \geq 10)$.
+   \begin{align*}
+   P(X \geq 10) &= \sum\limits_{x=10}^{\infty} (0.72)^{x} \times 0.28, \\
+                &= \sum\limits_{u = 0}^{\infty} (0.72)^{u + 10} \times 0.28 \qquad u =x-10\\
+                &= 0.72^{10} \times \sum\limits_{u=0}^{\infty} 0.72^u \times 0.28 \\
+                &= 0.72^{10} \times \left[  \frac{0.28}{1 - 0.72} \right] \quad \text{geometric series}\\
+                &= 0.72^{10}
+    \end{align*}
+    
+    As we saw in class, the probability that she has to play at least 10 games before the first win is equivalent to simply losing 10 games.
+
+    ```{r}
+    0.72^(10)   #P(X >= 10) manually
+    
+    1-pgeom(q = 9, prob = 0.28)  
+    ```
+    
+c. What is the expected number of games she has to play before her first win? Find the probability that she loses more games than expected. Do this in closed form and calculate using R as a calculator. Also use the R function for calculating geometric probabilities to find the answer.
+
+    Here we want to find $E\left[X \right]$ which we know is given by $\frac{1 - \pi}{\pi}$ by Theorem 8.1. This is calculated below. 
+    
+    ```{r}
+    exp_games_before_win <- (1-0.28)/0.28
+    exp_games_before_win
+    ```
+
+    Here we want the probability that $X > `r exp_games_before_win`$. In other words we want $P(X \geq 3)$. From the calculations in the previous part, we know this is simply $0.72^{3}$. 
+    
+    ```{r}
+     0.72^3  #P(X >= 3)
+    
+    ```
+    
+    We can also do this by rounding down the expected value to 2 and finding $1 - P(X \leq 2)$. This is shown below using the `floor` function to round the expected value down to the nearest integer
+    
+    ```{r }
+    qfloor <- floor(exp_games_before_win)   
+    qfloor
+    
+    1 - pgeom(q = qfloor, prob = 0.28)  #1 - P(X <= 2)
+    ```
+    
+    
+
+2. (Choco chips) Suppose $X$, the number of chocolate chips in a certain type of cookie has a Poisson distribution with rate $\lambda$. We want the probability that a randomly chosen cookie has at least 2 chocolate chips to be greater than or equal to 0.99. Find the smallest value of $\lambda$ that ensures this probability.
+
+   *Note* The equation will be non-linear in $\lambda$ and can only be solved numerically. 
+   
+   \begin{align*}
+      P(X \geq 2) & \geq 0.99 \\
+      \iff 1 - P(X = 0) - P(X = 1) & \geq 0.99 \\
+      \iff 1 - \frac{\lambda^0 e^{-\lambda}}{0!} - \frac{\lambda^1 e^{-\lambda}}{1!} & \geq 0.99 \\
+      \iff 1 - e^{-\lambda} - \lambda e^{-\lambda} & \geq 0.99 \\
+      \iff e^{-\lambda}(\lambda + 1) & \leq 0.01 \\
+    \end{align*}
+  
+    We will need to use numerical methods to find the smallest value of $\lambda$ which satisfies this equation.  Let's look at a plot of the function $e^{-\lambda}(\lambda + 1)$ to see what it looks like.
+
+    ```{r problem3_plot, out.width="50%", echo = F, fig.align="center"}
+
+    ggplot() +
+      geom_function( fun = function(x){exp(-x)*(x+1)}, 
+                 xlim=c(0,10) ) +
+      geom_hline(yintercept = 0.01, 
+             color = "red" )+
+      annotate(geom = "text", 
+           x = 2, 
+           y = 0.02, 
+           label = "0.01" ) +
+      labs(x = expression(lambda),
+       y = expression((lambda+1)*e^{-lambda} ) )
+    ```
+
+    
+      From the picture, we can see that the function $e^{-\lambda}(\lambda+1)$ is a decreasing function of $\lambda$. Therefore, in order to find the smallest value of $\lambda$ that ensures $$e^{-\lambda}(\lambda+1) \leq 0.01$$ we need to find the $\lambda$ that satisfies the equation exactly. In other words, we need to find root of the equation
+$$e^{-\lambda} (\lambda + 1) - 0.01 = 0.$$
+
+     The R function `uniroot` is a root finding method which uses a bisection algorithm. It requires the function $f$ whose root you want to find. It also needs a lower and upper bound for where the root lies. It produces a bunch of output, we are simply extracting the root.  
+ 
+    ```{r  problem3_solve}
+    # Looks like we need a value between 6 and 7
+    # Get lambdaMin using uniroot function
+
+    lambdaMin <- uniroot(
+                f = function(x){exp(-x)*(x + 1) - 0.01} ,
+                lower = 0,
+                upper = 10)$root 
+
+    cat("The minimum value for the mean is lambda",
+       round(lambdaMin, 3) )
+
+    # Check for probability of at least 2 chocolate chips - should be 0.99
+    prob2plus <- 1 - ppois(1, lambdaMin)
+
+    cat("The probability of at least 2 chocolate chips is",
+       round(prob2plus, 3) )
+
+    ```
+    
+4. Is the Poisson distribution a good fit for modeling the number of fumbles in NCAA football? The package **fastR2** contains a dataset called `Fumbles` which gives the number of fumbles by each NCAA FBS team for the first three weeks in November 2010. The package has been attached in the setup code chunk. 
+
+    Run the setup code chunk in the console by clicking the play button. This should load the package so you can see the data. Type `data(fumbles)` in the Console. Click on the Promise link in your Environment and open the data in the spreadsheet viewer. 
+
+    The frequency distribution of the number of fumbles made in week 1 is shown below. A histogram of the data is also shown. 
+    
+    ```{r message = F, warning = F, out.width = "50%", fig.align = "center"}
+    Fumbles %>% count(week1)  #print distribution of week 1 fumbles
+    
+    ggplot(data = Fumbles,
+           mapping = aes(x = week1) )+
+      geom_histogram(binwidth = 1, 
+                     alpha = 0.5,
+                     color = "purple",
+                     fill = "gold") +
+      labs(title = "NCAA FBS Teams 2010  ",
+           x = "Number of Fumbles in Week 1",
+           caption = "Source: fastR2 package")
+      
+    ```
+    
+a. Could this data be modeled using a Poisson? If yes, what $\lambda$ would you suggest? (Take a look at the probability histograms in the Poisson slidedeck)
+
+    The shape is right skewed and the Poisson can definitely be used to capture this. We would need to use a small value of $\lambda$, possibly less than 3.
+    
+b. Using R as a calculator, write code in the code chunk below to find $\bar{x}$ the average number of fumbles made in week 1.
+
+    ```{r 4a}
+
+    total_n <- 22+36+29+23+5+4+1
+    total_n
+    
+    xbar <-(22*0 + 36*1 + 29*2 + 23*3 + 5*4 + 4*5 + 1*7)/total_n 
+    xbar
+    ```
+
+
+
+c. Suppose we model these data using a Poisson distribution with rate $\lambda$ set equal to $\bar{x}$. What does this Poisson model predict for the probabilities of seeing 0 fumbles? How does this match with the fraction of times we actually observed "0" fumbles in week 1? Enter these numbers in the small (html) table created below. Repeat for the remaining values.
+
+  
+
+    |x      | observed prop   | predicted prob
+    |:----- |  :-----------   | :----------   
+    |    0  |   `r 22/total_n`| `r dpois(x = 0, lambda = xbar)`               
+    |    1  |                 |               
+    |    2  |                 |               
+    |    3  |                 |               
+    |    4  |                 |               
+    |    5  |                 |               
+    |    6  |                 |
+    |    7  |                 |
+
+    Remaining answers below.
+ 
+    ```{r}
+    pred_prob_0 <- dpois(x = 0, lambda = xbar)
+    
+    obs_0 <- 22/total_n
+    
+    cat("Predicted", pred_prob_0, "Expected", obs_0)
+    
+    #for all the values
+    
+    pois_fit <- tibble(
+      x = c(0,1,2,3,4,5,6,7),
+      freq = c(22,36,29,23,5,4,0,1),
+      obs_prop = freq/sum(freq),
+      pred_prob = dpois(x = x, lambda = xbar)
+    )
+    
+    pois_fit
+    ```
+
+ 
+    
+4.  (Phone calls) Suppose telephone calls arrive at a help line at the rate of two per minute. A Poisson process is assumed to provide a good model for the arrivals. 
+    
+    For each question below, write the probability you wish to calculate, then use R to do the calculation.
+
+a. Calculate the probability that exactly five calls will arrive in the next 2 minutes.
+
+    Let the random variable $X$ denote the number of arrivals in an interval of length $t = 2$ minutes. we want to find $P(X = 5)$. 
+    
+    Note that $X \sim Pois(\lambda t)$ where $\lambda = 2$ and $t = 2$.  In other words $X \sim Pois(4)$. Its PMF is
+    $$f(x) = e^{-4} \frac{4^{x}}{x!}, \quad x = 0,1,2,\dots$$
+   
+    This is calculated below using R.
+
+    ```{r problem1a}
+    exp(-4)*(4)^(5)/factorial(5)   #manually
+     
+    dpois(x = 5, lambda = 4)           #using dpois
+    ```
+
+
+b. Calculate the probability that the next two calls will arrive more than 5 minutes apart.
+
+    Let $X$ denote the number of arrivals in an interval of length $t = 5$ minutes starting when the first call arrives. We want $P(X = 0)$.
+    
+    Note that $X \sim Pois(\lambda t)$ where $\lambda = 2$ and $t = 5$. In other words $X \sim Pois(10)$. Its PMF is
+    $$f(x) = e^{-10} \frac{10^{x}}{x!}, \quad x = 0,1,2,\dots$$
+   
+    This is calculated below using R.
+    
+    ```{r problem 1b}
+    exp(-10)  
+    
+    dpois(x = 0, lambda = 10)
+    ```
+
+
+   
